@@ -20,9 +20,6 @@ dependencies:
   '@faker-js/faker':
     specifier: ^8.0.2
     version: 8.0.2
-  '@mantine/carousel':
-    specifier: ^6.0.20
-    version: 6.0.20(@mantine/core@6.0.20)(@mantine/hooks@6.0.20)(embla-carousel-react@8.0.0-rc13)(react@18.2.0)
   '@mantine/core':
     specifier: ^6.0.20
     version: 6.0.20(@emotion/react@11.11.1)(@mantine/hooks@6.0.20)(react-dom@18.2.0)(react@18.2.0)
@@ -86,6 +83,9 @@ dependencies:
   jotai:
     specifier: ^2.4.2
     version: 2.4.2(react@18.2.0)
+  moment:
+    specifier: ^2.29.4
+    version: 2.29.4
   next:
     specifier: 13.4.19
     version: 13.4.19(react-dom@18.2.0)(react@18.2.0)
@@ -403,21 +403,6 @@ packages:
 
   /@kurkle/color@0.3.2:
     resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
-    dev: false
-
-  /@mantine/carousel@6.0.20(@mantine/core@6.0.20)(@mantine/hooks@6.0.20)(embla-carousel-react@8.0.0-rc13)(react@18.2.0):
-    resolution: {integrity: sha512-LxB9pnFP35Ls2woYimSMXaE0Tn/rGQ3gXRWy2O7sLij6wcKuBWm9zvtwTwEfaY9LuorsIM0CXn6q7Nn6wQ/W7w==}
-    peerDependencies:
-      '@mantine/core': 6.0.20
-      '@mantine/hooks': 6.0.20
-      embla-carousel-react: ^7.0.0
-      react: '>=16.8.0'
-    dependencies:
-      '@mantine/core': 6.0.20(@emotion/react@11.11.1)(@mantine/hooks@6.0.20)(react-dom@18.2.0)(react@18.2.0)
-      '@mantine/hooks': 6.0.20(react@18.2.0)
-      '@mantine/utils': 6.0.20(react@18.2.0)
-      embla-carousel-react: 8.0.0-rc13(react@18.2.0)
-      react: 18.2.0
     dev: false
 
   /@mantine/core@6.0.20(@emotion/react@11.11.1)(@mantine/hooks@6.0.20)(react-dom@18.2.0)(react@18.2.0):
@@ -1879,6 +1864,10 @@ packages:
 
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+    dev: false
+
+  /moment@2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
     dev: false
 
   /multipipe@1.0.2:

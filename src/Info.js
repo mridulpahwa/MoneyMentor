@@ -16,9 +16,21 @@ export default function Info() {
         Balance: $<span>{balance}</span>
       </h2>
 
+      <LastExpense {...lastExpense} />
+    </div>
+  );
+}
+
+function LastExpense(expense) {
+  return (
+    <div className="flex gap-1 items-center">
       <h2 className="text-red-500">
-        Last Expense: - $<span>{lastExpense}</span>
+        Last Expense: - $<span>{expense.amount}</span>
       </h2>
+
+      <div className="text-sm">
+        <h3 className="text-slate-500">From: {expense.merchant}</h3>
+      </div>
     </div>
   );
 }

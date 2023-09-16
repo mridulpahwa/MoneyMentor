@@ -1,4 +1,3 @@
-import Chart from "~/Chart";
 import Info from "~/Info";
 
 export default function Home() {
@@ -6,7 +5,7 @@ export default function Home() {
     <main className="mt-5 flex flex-col gap-4 items-center">
       <Info />
 
-      <Chart />
+      {/* <Chart /> */}
     </main>
   );
 }

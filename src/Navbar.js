@@ -7,15 +7,16 @@ import {
   rem,
 } from "@mantine/core";
 import {
-  IconCreditCard,
   IconLogout,
   IconMessage,
   IconReceipt2,
   IconSkull,
   IconSwitchHorizontal,
 } from "@tabler/icons-react";
+import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { useState } from "react";
+import { customerAtom } from "./atoms";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -89,7 +90,6 @@ const useStyles = createStyles((theme) => ({
 
 const tabs = {
   account: [
-    { link: "/", label: "Global View", icon: IconCreditCard },
     { link: "/loans", label: "Loan Progress", icon: IconReceipt2 },
     { link: "/chat", label: "Chat", icon: IconMessage },
   ],
@@ -97,11 +97,13 @@ const tabs = {
 };
 
 export function NavbarSegmented() {
+  const customer = useAtomValue(customerAtom);
+
   const { classes, cx } = useStyles();
   const [section, setSection] = useState("account");
   const [active, setActive] = useState("Billing");
 
-  const links = tabs[section].map((item) => (
+  let links = tabs[section].map((item) => (
     <Link
       className={cx(classes.link, {
         [classes.linkActive]: item.label === active,
@@ -114,6 +116,10 @@ export function NavbarSegmented() {
     </Link>
   ));
 
+  // if (section === "account") {
+  //   links;
+  // }
+
   return (
     <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
       <Navbar.Section>
@@ -124,7 +130,7 @@ export function NavbarSegmented() {
           color="dimmed"
           mb="xs"
         >
-          bgluesticker@mantine.dev
+          {customer.name}
         </Text>
 
         <SegmentedControl
