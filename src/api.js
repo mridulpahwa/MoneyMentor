@@ -1,10 +1,38 @@
-const url = "http://api.nessieisreal.com";
-const key = "e9ff106632fa3ebb226a3f127c4a3e75";
+const customers = [
+  {
+    id: 1,
+    name: "gih",
+  },
+];
 
-/**
- * @returns {Promise<Array>} - An array of accounts
- */
-export async function getAccounts() {
-  const req = await fetch(`${url}/accounts`);
-  return await req.json();
+const customers = [createCustomer(1, 1000, 8, 3.5, "Sam", 500, 100, 200)];
+
+export default customers;
+
+//define the createCustomer function
+function createCustomer(
+  id,
+  balance,
+  accounts,
+  points,
+  creditScore,
+  name,
+  bills,
+  charges,
+  loans
+) {
+  return {
+    id,
+    accounts,
+    balance,
+    points,
+    creditScore,
+    name,
+    bills,
+    charges,
+    loans,
+  };
 }
+
+//const response = await fetch(`${baseUrl}/${url}?key=${key}`);
+//return response.json();

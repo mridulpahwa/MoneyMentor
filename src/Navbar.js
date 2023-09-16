@@ -7,23 +7,14 @@ import {
   rem,
 } from "@mantine/core";
 import {
-  Icon2fa,
-  IconBellRinging,
-  IconDatabaseImport,
-  IconFileAnalytics,
-  IconFingerprint,
-  IconKey,
-  IconLicense,
+  IconCreditCard,
   IconLogout,
-  IconMessage2,
-  IconMessages,
+  IconMessage,
   IconReceipt2,
-  IconReceiptRefund,
-  IconSettings,
-  IconShoppingCart,
+  IconSkull,
   IconSwitchHorizontal,
-  IconUsers,
 } from "@tabler/icons-react";
+import Link from "next/link";
 import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
@@ -98,23 +89,11 @@ const useStyles = createStyles((theme) => ({
 
 const tabs = {
   account: [
-    { link: "", label: "Notifications", icon: IconBellRinging },
-    { link: "", label: "Billing", icon: IconReceipt2 },
-    { link: "", label: "Security", icon: IconFingerprint },
-    { link: "", label: "SSH Keys", icon: IconKey },
-    { link: "", label: "Databases", icon: IconDatabaseImport },
-    { link: "", label: "Authentication", icon: Icon2fa },
-    { link: "", label: "Other Settings", icon: IconSettings },
+    { link: "/", label: "Global View", icon: IconCreditCard },
+    { link: "/loans", label: "Loan Progress", icon: IconReceipt2 },
+    { link: "/chat", label: "Chat", icon: IconMessage },
   ],
-  general: [
-    { link: "", label: "Orders", icon: IconShoppingCart },
-    { link: "", label: "Receipts", icon: IconLicense },
-    { link: "", label: "Reviews", icon: IconMessage2 },
-    { link: "", label: "Messages", icon: IconMessages },
-    { link: "", label: "Customers", icon: IconUsers },
-    { link: "", label: "Refunds", icon: IconReceiptRefund },
-    { link: "", label: "Files", icon: IconFileAnalytics },
-  ],
+  general: [{ link: "", label: "Orders", icon: IconSkull }],
 };
 
 export function NavbarSegmented() {
@@ -123,20 +102,16 @@ export function NavbarSegmented() {
   const [active, setActive] = useState("Billing");
 
   const links = tabs[section].map((item) => (
-    <a
+    <Link
       className={cx(classes.link, {
         [classes.linkActive]: item.label === active,
       })}
       href={item.link}
       key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(item.label);
-      }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
-    </a>
+    </Link>
   ));
 
   return (
