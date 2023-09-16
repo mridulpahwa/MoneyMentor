@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { Slider } from "@mantine/core";
 import {
   CategoryScale,
   Chart as ChartJS,
@@ -9,7 +10,9 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
+import { getDatesInRange } from "./util";
 
 ChartJS.register(
   CategoryScale,
@@ -34,9 +37,9 @@ export const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = getDatesInRange(10).reverse();
 
-export const data = {
+export const chartData = {
   labels,
   datasets: [
     {
@@ -55,5 +58,32 @@ export const data = {
 };
 
 export default function Chart() {
-  return <Line options={options} data={data} />;
+  const fullData = chartData;
+  const [data, setData] = useState(fullData);
+  const [weeksBack, setWeeksBack] = useState(4);
+
+  useEffect(() => {
+    const datasets = fullData.datasets.map((d) => ({
+      ...d,
+      data: d.data.slice(0, weeksBack).reverse(),
+    }));
+
+    const newData = {
+      ...fullData,
+      labels: getDatesInRange(weeksBack).reverse(),
+      datasets,
+    };
+    setData(newData);
+  }, [weeksBack]);
+
+  return (
+    <div className="flex flex-col gap-3 h-[100vh] w-[100vw] max-w-full max-h-full">
+      <Line options={options} data={data} />
+      <Slider
+        value={weeksBack}
+        onChange={setWeeksBack}
+        max={fullData.datasets[0].data.length}
+      />
+    </div>
+  );
 }

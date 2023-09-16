@@ -1,7 +1,8 @@
 import "~/styles/globals.css";
 
-import { AppShell, Header, MantineProvider } from "@mantine/core";
+import { AppShell, MantineProvider } from "@mantine/core";
 import Head from "next/head";
+import Header from "~/Header";
 import { NavbarSegmented } from "~/Navbar";
 
 export default function App(props) {
@@ -28,7 +29,7 @@ export default function App(props) {
         <AppShell
           padding="md"
           navbar={<NavbarSegmented />}
-          header={<Header height={60} p="xs"></Header>}
+          header={<Header />}
           styles={(theme) => ({
             main: {
               backgroundColor:
