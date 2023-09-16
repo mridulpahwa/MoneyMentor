@@ -1,3 +1,4 @@
+import { RangeSlider } from "@mantine/core";
 import {
   CategoryScale,
   Chart as ChartJS,
@@ -10,7 +11,7 @@ import {
 } from "chart.js";
 import dayjs from "dayjs";
 import { useAtomValue } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { accountDepositsAtom, accountSpendingAtom } from "./atoms";
 import { getDatesBetween, splitChargesDaily } from "./util";
@@ -50,7 +51,7 @@ export default function Chart() {
   const minDate = dayjs(arr[arr.length - 1].date, format);
   const maxDate = dayjs(arr[0].date, format);
 
-  const labels = getDatesBetween(minDate, dayjs()).map((a) =>
+  const initialLabels = getDatesBetween(minDate, dayjs()).map((a) =>
     a.format("MM/DD/YYYY")
   );
 
@@ -63,7 +64,7 @@ export default function Chart() {
   console.log({ initialSplitSpending, initialIncome, income, spending });
 
   const chartData = {
-    labels,
+    labels: initialLabels,
     datasets: [
       {
         label: "Spending",
@@ -88,5 +89,45 @@ export default function Chart() {
     ],
   };
 
-  return <Line options={options} data={chartData} />;
+  const [labels, setLabels] = useState(initialLabels);
+
+  const [data, setData] = useState(chartData);
+  const maxRange = maxDate.diff(minDate, "days");
+  const [range, setRange] = useState([1, 7]);
+
+  useEffect(() => {
+    const datasets = chartData.datasets.map((d) => ({
+      ...d,
+      data: d.data.slice(range[0], range[1]),
+    }));
+
+    const newData = {
+      ...chartData,
+      labels: getDatesBetween(
+        minDate.add(range[0], "days"),
+        minDate
+          .add(Math.ceil((range[1] - range[0]) / 7), "weeks")
+          .add(range[0], "days")
+      ).map((a) => a.format("MM/DD/YYYY")),
+      datasets,
+    };
+    setData(newData);
+  }, [range]);
+
+  return (
+    <div className="flex flex-col gap-3 h-[100vh] w-[100vw] max-w-full max-h-full">
+      <Line options={options} data={data} />
+
+      <div className="w-[400px] border-2 rounded border-blue-400 p-5">
+        <div>Days before today to show income and losses on graph</div>
+        <RangeSlider
+          defaultValue={range}
+          onChange={(values) => setRange(values)}
+          min={1}
+          max={maxRange}
+          minRange={1}
+        />
+      </div>
+    </div>
+  );
 }
