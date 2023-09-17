@@ -1,4 +1,11 @@
-import { Navbar, Text, createStyles, getStylesRef, rem } from "@mantine/core";
+import {
+  Navbar,
+  Select,
+  Text,
+  createStyles,
+  getStylesRef,
+  rem,
+} from "@mantine/core";
 import {
   IconHome,
   IconLogout,
@@ -7,10 +14,10 @@ import {
   IconSkull,
   IconSwitchHorizontal,
 } from "@tabler/icons-react";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import Link from "next/link";
 import { useState } from "react";
-import { customerAtom } from "./atoms";
+import { accountsAtom, accountsIndexAtom, customerAtom } from "./atoms";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -97,6 +104,8 @@ export function NavbarSegmented() {
   const { classes, cx } = useStyles();
   const [section, setSection] = useState("account");
   const [active, setActive] = useState("Billing");
+  const [activeAcc, setActiveAcc] = useAtom(accountsIndexAtom);
+  const accounts = useAtomValue(accountsAtom);
 
   let links = tabs[section].map((item) => (
     <Link
@@ -123,6 +132,19 @@ export function NavbarSegmented() {
         >
           {customer.name}
         </Text>
+
+        <Select
+          label="Change to a different account"
+          data={accounts.map((acc, i) => ({
+            value: i,
+            label: acc.name,
+          }))}
+          placeholder="Pick one"
+          searchable
+          nothingFound="No options"
+          value={activeAcc}
+          onChange={setActiveAcc}
+        />
       </Navbar.Section>
 
       <Navbar.Section grow mt="xl">

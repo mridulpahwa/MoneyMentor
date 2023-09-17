@@ -13,18 +13,8 @@ import dayjs from "dayjs";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-import { accountDepositsAtom, accountSpendingAtom } from "./atoms";
+import { accountAtom } from "./atoms";
 import { getDatesBetween, splitChargesDaily } from "./util";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 export const format = "MM/DD/YYYY";
 
@@ -59,8 +49,19 @@ export const options = {
 };
 
 export default function Chart() {
-  const income = useAtomValue(accountDepositsAtom);
-  const spending = useAtomValue(accountSpendingAtom);
+  const account = useAtomValue(accountAtom);
+  const income = account.deposits;
+  const spending = [...account.charges, ...account.bills];
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
 
   const arr = [...income, ...spending].sort((a, b) =>
     dayjs(b.date, format).diff(dayjs(a.date, format))
@@ -78,7 +79,12 @@ export default function Chart() {
   const initialSplitSpending = splitChargesDaily(spending, maxDate);
   const [splitSpending, setSplitSpending] = useState(initialSplitSpending);
 
-  console.log({ initialSplitSpending, initialIncome, income, spending });
+  console.log({
+    initialSplitSpending,
+    initialIncome,
+    income,
+    spending,
+  });
 
   const chartData = {
     labels: initialLabels,
