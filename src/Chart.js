@@ -1,25 +1,37 @@
-import { faker } from "@faker-js/faker";
-import {
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  LineElement,
-  LinearScale,
-  PointElement,
-  Title,
-  Tooltip,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
+// import {
+//   CategoryScale,
+//   Chart as ChartJS,
+//   Legend,
+//   LineElement,
+//   LinearScale,
+//   PointElement,
+//   Title,
+//   Tooltip,
+// } from "chart.js";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { useAtomValue } from "jotai";
+import { accountDepositsAtom, accountSpendingAtom } from "./atoms";
+
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   Title,
+//   Tooltip,
+//   Legend
+// );
+// import { Line } from "react-chartjs-2";
+
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   Title,
+//   Tooltip,
+//   Legend
+// );
 
 export const options = {
   responsive: true,
@@ -34,26 +46,110 @@ export const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    {
-      label: "Dataset 2",
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ],
-};
+// export const chartData = {
+//   labels,
+//   datasets: [
+//     {
+//       label: "Spending",
+//       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+//       borderColor: "rgb(255, 99, 132)",
+//       backgroundColor: "rgba(255, 99, 132, 0.5)",
+//       tension: 0.2,
+//       borderWidth: 5,
+//     },
+//     {
+//       label: "Income",
+//       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+//       borderColor: "rgb(48, 201, 69)",
+//       backgroundColor: "rgba(48, 201, 69, 0.5)",
+//       tension: 0.2,
+//       borderWidth: 5,
+//     },
+//   ],
+// };
 
 export default function Chart() {
-  return <Line options={options} data={data} />;
+  // const fullData = chartData;
+  const income = useAtomValue(accountDepositsAtom);
+  const spending = useAtomValue(accountSpendingAtom);
+
+  // const format = "MM/DD/YYYY";
+  // const arr = [...income, ...spending].sort((a, b) => {
+  //   return moment(b.date, format) - moment(a.date, format);
+  // });
+  // const minDate = moment(arr[arr.length - 1].date, format);
+
+  // const weeks = moment().diff(minDate, "weeks");
+  // console.log({ weeks, maxDate: minDate });
+
+  // const splitIncome = useState(
+  //   splitChargesWeekly(
+  //     income.map((a) => a.amount),
+  //     2
+  //   )
+  // );
+  // const splitSpending = useState(
+  //   splitChargesWeekly(
+  //     spending.map((a) => a.amount),
+  //     2
+  //   )
+  // );
+
+  // const labels = getDatesInRange(0, 2);
+
+  // console.log({ splitIncome, splitSpending });
+
+  // const chartData = {
+  //   labels,
+  //   datasets: [
+  //     {
+  //       label: "Spending",
+  //       data: splitSpending,
+  //       borderColor: "rgb(255, 99, 132)",
+  //       backgroundColor: "rgba(255, 99, 132, 0.5)",
+  //       tension: 0.2,
+  //       borderWidth: 5,
+  //     },
+  //     {
+  //       label: "Income",
+  //       data: splitIncome,
+  //       borderColor: "rgb(48, 201, 69)",
+  //       backgroundColor: "rgba(48, 201, 69, 0.5)",
+  //       tension: 0.2,
+  //       borderWidth: 5,
+  //     },
+  //   ],
+  // };
+
+  // const [data, setData] = useState(chartData);
+  // const [range, setRange] = useState([1, weeks]);
+
+  // useEffect(() => {
+  //   const datasets = chartData.datasets.map((d) => ({
+  //     ...d,
+  //     data: d.data.slice(range[0], range[1]),
+  //   }));
+
+  //   const newData = {
+  //     ...chartData,
+  //     labels: getDatesInRange(0, range[1]),
+  //     datasets,
+  //   };
+  //   setData(newData);
+  // }, [range]);
+
+  // console.log(fullData.datasets[0].data.length);
+
+  return (
+    <div className="flex flex-col gap-3 h-[100vh] w-[100vw] max-w-full max-h-full">
+      {/* <Line options={options} data={chartData} /> */}
+
+      {/* <RangeSlider
+        defaultValue={range}
+        onChange={(values) => setRange(values)}
+        min={1}
+        max={weeks}
+      /> */}
+    </div>
+  );
 }

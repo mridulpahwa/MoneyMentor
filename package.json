@@ -9,10 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chatscope/chat-ui-kit-react": "^1.10.1",
+    "@chatscope/chat-ui-kit-styles": "^1.4.0",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@faker-js/faker": "^8.0.2",
-    "@mantine/carousel": "^6.0.20",
     "@mantine/core": "^6.0.20",
     "@mantine/dates": "^6.0.20",
     "@mantine/dropzone": "^6.0.20",
@@ -34,7 +35,9 @@
     "dayjs": "^1.11.9",
     "embla-carousel-react": "8.0.0-rc13",
     "jotai": "^2.4.2",
+    "moment": "^2.29.4",
     "next": "13.4.19",
+    "openai": "^4.7.1",
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
