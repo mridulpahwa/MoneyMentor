@@ -316,7 +316,7 @@ export async function getResponse(user, func, gptMessages) {
       content: func(user.accounts),
     },
   ];
-  debugger;
+  // debugger;
   const response = await openai.chat.completions.create({
     messages,
     model: "gpt-3.5-turbo",

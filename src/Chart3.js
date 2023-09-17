@@ -76,7 +76,7 @@ export default function Chart() {
   const splitIncome = splitChargesDaily(income, maxDate);
 
   const splitSpending = splitChargesDaily(spending, maxDate);
-  debugger;
+  // debugger;
 
   console.log({
     // initialSplitSpending,
