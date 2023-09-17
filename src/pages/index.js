@@ -1,4 +1,5 @@
 import Chart from "~/Chart3";
+import IncomeAndBills from "~/IncomeAndBills";
 import Info from "~/Info";
 
 export default function Home() {
@@ -7,6 +8,8 @@ export default function Home() {
       <Info />
 
       <Chart />
+
+      <IncomeAndBills />
     </main>
   );
 }

@@ -73,50 +73,45 @@ export default function Chart() {
     a.format("MM/DD/YYYY")
   );
 
-  const splitIncome = splitChargesDaily(income, maxDate);
+  const splitIncome = splitChargesDaily(income, maxDate, minDate).reverse();
 
-  const splitSpending = splitChargesDaily(spending, maxDate);
+  const splitSpending = splitChargesDaily(spending, maxDate, minDate).reverse();
   // debugger;
-
-  console.log({
-    // initialSplitSpending,
-    // initialIncome,
-    income,
-    spending,
-  });
 
   // const handleChange (e)
   const maxRange = maxDate.diff(minDate, "days");
-  const [range, setRange] = useState([1, 7]);
+  const [range, setRange] = useState([0, 7]);
+  const mappedSpending = splitSpending
+    .map((a) =>
+      a.map((b) => b.amount).reduce((partialSum, a) => partialSum + a, 0)
+    )
+    .slice(range[0], range[1]);
+  const mappedIncome = splitIncome
+    .map((a) =>
+      a.map((b) => b.amount).reduce((partialSum, a) => partialSum + a, 0)
+    )
+    .slice(range[0], range[1]);
 
   const data = {
     labels: getDatesBetween(
-      minDate.add(range[0], "days"),
-      minDate
-        .add(Math.ceil((range[1] - range[0]) / 7), "weeks")
-        .add(range[0], "days")
-    ).map((a) => a.format("MM/DD/YYYY")),
+      dayjs().subtract(range[1], "days"),
+      dayjs().add(range[0], "days")
+    )
+      .splice(range[0], range[1])
+      .reverse()
+      .map((a) => a.format("MM/DD/YYYY")),
     datasets: [
       {
         label: "Spending",
-        data: splitSpending
-          .map((a) =>
-            a.map((b) => b.amount).reduce((partialSum, a) => partialSum + a, 0)
-          )
-          .slice(range[0], range[1]),
+        data: mappedSpending,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         tension: 0.2,
         borderWidth: 3,
-        color: "blue", // Change the color of this specific label to blue
       },
       {
         label: "Income",
-        data: splitIncome
-          .map((a) =>
-            a.map((b) => b.amount).reduce((partialSum, a) => partialSum + a, 0)
-          )
-          .slice(range[0], range[1]),
+        data: mappedIncome,
         borderColor: "rgb(48, 201, 69)",
         backgroundColor: "rgba(48, 201, 69, 0.5)",
         tension: 0.2,
@@ -145,7 +140,7 @@ export default function Chart() {
   // }, [range]);
 
   return (
-    <div className="flex flex-col gap-3 h-[100vh] w-[100vw] max-w-full max-h-full">
+    <div className="flex flex-col gap-3 w-[100vw] max-w-full">
       <Line options={options} data={data} />
 
       <div className="w-[400px] border-2 rounded border-blue-400 p-5">
@@ -153,7 +148,7 @@ export default function Chart() {
         <RangeSlider
           defaultValue={range}
           onChange={(values) => setRange(values)}
-          min={1}
+          min={0}
           max={maxRange}
           minRange={1}
         />

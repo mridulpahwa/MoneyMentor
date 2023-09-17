@@ -4,7 +4,7 @@
 //   today.setDate(today.getDate() + weeksAhead * 7);
 
 import dayjs from "dayjs";
-import { format } from "./Chart";
+import { format } from "./Chart3";
 
 //   for (let i = 0; i <= weeksInPast; i++) {
 //     const date = new Date(today);
@@ -46,7 +46,7 @@ export function padStartArray(arr, desiredLength, padValue) {
   return paddingArray.concat(arr);
 }
 
-export function splitChargesDaily(charges, endDate) {
+export function splitChargesDaily(charges, endDate, startDate) {
   // Initialize variables
   const result = [];
   let currentDate = dayjs(charges[0].date, format);
@@ -86,6 +86,55 @@ export function splitChargesDaily(charges, endDate) {
 
   return result;
 }
+
+// export function splitChargesDaily(inputArray, minDate) {
+//   if (inputArray.length === 0) {
+//     return [];
+//   }
+
+//   // Find the minimum date in the inputArray
+//   let minDateInArray = dayjs(inputArray[0].date);
+//   for (const obj of inputArray) {
+//     const currentDate = dayjs(obj.date, format);
+//     if (currentDate.isBefore(minDateInArray)) {
+//       minDateInArray = currentDate;
+//     }
+//   }
+
+//   // Create an array of empty sublists for each day from minDateInArray to minDate
+//   const dayOfWeekSublists = [];
+//   let currentDate = minDateInArray;
+//   while (currentDate.isSameOrBefore(minDate, "day")) {
+//     dayOfWeekSublists.push([]);
+//     currentDate = currentDate.add(1, "day");
+//   }
+
+//   // Create an object to group objects by date
+//   const groupedByDate = {};
+
+//   // Group objects by date
+//   inputArray.forEach((obj) => {
+//     const date = dayjs(obj.date, format).format("YYYY-MM-DD");
+//     if (!groupedByDate[date]) {
+//       groupedByDate[date] = [];
+//     }
+//     groupedByDate[date].push(obj);
+//   });
+
+//   // Fill the dayOfWeekSublists with objects from groupedByDate
+//   currentDate = minDateInArray;
+//   while (currentDate.isSameOrBefore(minDate, "day")) {
+//     const dateKey = currentDate.format("YYYY-MM-DD");
+//     if (groupedByDate[dateKey]) {
+//       dayOfWeekSublists.push(groupedByDate[dateKey]);
+//     } else {
+//       dayOfWeekSublists.push([]);
+//     }
+//     currentDate = currentDate.add(1, "day");
+//   }
+
+//   return dayOfWeekSublists;
+// }
 
 export function getDatesBetween(startDate, endDate) {
   const dates = [];

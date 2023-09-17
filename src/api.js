@@ -8,13 +8,13 @@ export const accounts = [
     name: "Credit card",
     bills: [
       {
-        date: "09/14/2023",
+        date: "09/12/2023",
         amount: 30,
         name: "Amazon Prime",
         recurring: true,
       },
       {
-        date: "09/14/2023",
+        date: "09/13/2023",
         amount: 15,
         name: "Hulu",
         recurring: true,
@@ -49,7 +49,7 @@ export const accounts = [
         id: 2,
         amount: 1000,
         name: "Thanks for vacation ;)",
-        date: "09/12/2023",
+        date: "09/16/2023",
       },
     ],
     charges: [
@@ -57,7 +57,7 @@ export const accounts = [
         id: 0,
         amount: 8,
         merchant: "Starbucks",
-        date: "09/16/2023",
+        date: "09/11/2023",
       },
       {
         id: 1,
@@ -113,7 +113,8 @@ export const accounts = [
     name: "Savings account",
     bills: [
       {
-        date: "09/10/2023",
+        id: 1,
+        date: "09/16/2023",
         amount: 300,
         name: "Insurance Premium",
         recurring: true,
@@ -131,16 +132,10 @@ export const accounts = [
         id: 2,
         amount: 1200,
         name: "Deposit for savings",
-        date: "09/05/2023",
+        date: "09/16/2023",
       },
     ],
-    charges: [
-      {
-        date: "09/11/2023",
-        amount: 15,
-        merchant: "Netflix",
-      },
-    ],
+    charges: [],
   },
   {
     id: 3,
@@ -151,7 +146,8 @@ export const accounts = [
     name: "Debit card",
     bills: [
       {
-        date: "09/06/2023",
+        id: 1,
+        date: "09/16/2023",
         amount: 200,
         merchant: "Sony",
       },
@@ -175,7 +171,7 @@ export const accounts = [
         id: 2,
         amount: 235,
         name: "Payment for helping with party",
-        date: "09/14/2023",
+        date: "09/16/2023",
       },
     ],
   },
@@ -184,7 +180,7 @@ export const accounts = [
 export const customers = [
   {
     id: 1,
-    name: "Hunter Biden",
+    name: "Jeffery",
     accounts: accounts,
   },
   {
