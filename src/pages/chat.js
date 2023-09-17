@@ -7,7 +7,7 @@ import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { useEffect, useState } from "react";
 import GPTMsg from "~/GPTMsg";
 export default function Chat() {
-  const [chat, setChat] = useState(["Amog us"]);
+  const [chat, setChat] = useState(["Get more money :)"]);
 
   useEffect(() => {
     // get some info from gpt and add it to the chat
@@ -20,7 +20,7 @@ export default function Chat() {
         typingIndicator={
           <TypingIndicator
             className="!bg-slate-700 !w-full rounded-md"
-            content="Lord GPT is thinking"
+            content="Jeff is thinking"
           />
         }
       >

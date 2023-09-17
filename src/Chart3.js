@@ -38,6 +38,23 @@ export const options = {
       display: true,
       text: "Chart.js Line Chart",
     },
+    legend: {
+      labels: {
+        color: "#60a5fa", // Change the color of all labels to red
+      },
+    },
+    options: {
+      scales: {
+        x: {
+          beginAtZero: true,
+          color: "#60a5fa",
+          // You can add further X-axis customization here if needed
+        },
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
   },
 };
 
@@ -75,6 +92,7 @@ export default function Chart() {
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         tension: 0.2,
         borderWidth: 3,
+        color: "blue", // Change the color of this specific label to blue
       },
       {
         label: "Income",

@@ -1,12 +1,6 @@
+import { Navbar, Text, createStyles, getStylesRef, rem } from "@mantine/core";
 import {
-  Navbar,
-  SegmentedControl,
-  Text,
-  createStyles,
-  getStylesRef,
-  rem,
-} from "@mantine/core";
-import {
+  IconHome,
   IconLogout,
   IconMessage,
   IconReceipt2,
@@ -90,6 +84,7 @@ const useStyles = createStyles((theme) => ({
 
 const tabs = {
   account: [
+    { link: "/", label: "Home", icon: IconHome },
     { link: "/loans", label: "Loan Progress", icon: IconReceipt2 },
     { link: "/chat", label: "Chat", icon: IconMessage },
   ],
@@ -116,10 +111,6 @@ export function NavbarSegmented() {
     </Link>
   ));
 
-  // if (section === "account") {
-  //   links;
-  // }
-
   return (
     <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
       <Navbar.Section>
@@ -132,17 +123,6 @@ export function NavbarSegmented() {
         >
           {customer.name}
         </Text>
-
-        <SegmentedControl
-          value={section}
-          onChange={(value) => setSection(value)}
-          transitionTimingFunction="ease"
-          fullWidth
-          data={[
-            { label: "Account", value: "account" },
-            { label: "System", value: "general" },
-          ]}
-        />
       </Navbar.Section>
 
       <Navbar.Section grow mt="xl">

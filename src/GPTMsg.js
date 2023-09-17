@@ -6,12 +6,12 @@ export default function GPTMsg({ text }) {
       className="bg-transparent"
       model={{
         message: text,
-        sender: "GPT Helper",
+        sender: "Jeff",
         direction: "incoming",
         position: "single",
       }}
     >
-      <Avatar src={"/openai.svg"} name="Eliot" />
+      <Avatar src={"/capital.svg"} name="Jeff" />
     </Message>
   );
 }
