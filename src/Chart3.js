@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 import dayjs from "dayjs";
 import { useAtomValue } from "jotai";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { accountAtom } from "./atoms";
 import { getDatesBetween, splitChargesDaily } from "./util";
@@ -69,31 +69,41 @@ export default function Chart() {
   const minDate = dayjs(arr[arr.length - 1].date, format);
   const maxDate = dayjs(arr[0].date, format);
 
-  const initialLabels = getDatesBetween(minDate, dayjs()).map((a) =>
+  const labels = getDatesBetween(minDate, dayjs()).map((a) =>
     a.format("MM/DD/YYYY")
   );
 
-  const initialIncome = splitChargesDaily(income, maxDate);
-  const [splitIncome, setSplitIncome] = useState(initialIncome);
+  const splitIncome = splitChargesDaily(income, maxDate);
 
-  const initialSplitSpending = splitChargesDaily(spending, maxDate);
-  const [splitSpending, setSplitSpending] = useState(initialSplitSpending);
+  const splitSpending = splitChargesDaily(spending, maxDate);
+  debugger;
 
   console.log({
-    initialSplitSpending,
-    initialIncome,
+    // initialSplitSpending,
+    // initialIncome,
     income,
     spending,
   });
 
-  const chartData = {
-    labels: initialLabels,
+  // const handleChange (e)
+  const maxRange = maxDate.diff(minDate, "days");
+  const [range, setRange] = useState([1, 7]);
+
+  const data = {
+    labels: getDatesBetween(
+      minDate.add(range[0], "days"),
+      minDate
+        .add(Math.ceil((range[1] - range[0]) / 7), "weeks")
+        .add(range[0], "days")
+    ).map((a) => a.format("MM/DD/YYYY")),
     datasets: [
       {
         label: "Spending",
-        data: splitSpending.map((a) =>
-          a.map((b) => b.amount).reduce((partialSum, a) => partialSum + a, 0)
-        ),
+        data: splitSpending
+          .map((a) =>
+            a.map((b) => b.amount).reduce((partialSum, a) => partialSum + a, 0)
+          )
+          .slice(range[0], range[1]),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         tension: 0.2,
@@ -102,9 +112,11 @@ export default function Chart() {
       },
       {
         label: "Income",
-        data: splitIncome.map((a) =>
-          a.map((b) => b.amount).reduce((partialSum, a) => partialSum + a, 0)
-        ),
+        data: splitIncome
+          .map((a) =>
+            a.map((b) => b.amount).reduce((partialSum, a) => partialSum + a, 0)
+          )
+          .slice(range[0], range[1]),
         borderColor: "rgb(48, 201, 69)",
         backgroundColor: "rgba(48, 201, 69, 0.5)",
         tension: 0.2,
@@ -113,30 +125,24 @@ export default function Chart() {
     ],
   };
 
-  const [labels, setLabels] = useState(initialLabels);
+  // useEffect(() => {
+  //   const datasets = data.datasets.map((d) => ({
+  //     ...d,
+  //     data: d.data.slice(range[0], range[1]),
+  //   }));
 
-  const [data, setData] = useState(chartData);
-  const maxRange = maxDate.diff(minDate, "days");
-  const [range, setRange] = useState([1, 7]);
-
-  useEffect(() => {
-    const datasets = chartData.datasets.map((d) => ({
-      ...d,
-      data: d.data.slice(range[0], range[1]),
-    }));
-
-    const newData = {
-      ...chartData,
-      labels: getDatesBetween(
-        minDate.add(range[0], "days"),
-        minDate
-          .add(Math.ceil((range[1] - range[0]) / 7), "weeks")
-          .add(range[0], "days")
-      ).map((a) => a.format("MM/DD/YYYY")),
-      datasets,
-    };
-    setData(newData);
-  }, [range]);
+  //   const newData = {
+  //     ...data,
+  //     labels: getDatesBetween(
+  //       minDate.add(range[0], "days"),
+  //       minDate
+  //         .add(Math.ceil((range[1] - range[0]) / 7), "weeks")
+  //         .add(range[0], "days")
+  //     ).map((a) => a.format("MM/DD/YYYY")),
+  //     datasets,
+  //   };
+  //   setData(newData);
+  // }, [range]);
 
   return (
     <div className="flex flex-col gap-3 h-[100vh] w-[100vw] max-w-full max-h-full">
