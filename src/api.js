@@ -119,7 +119,7 @@ export const accounts = [
         recurring: true,
       },
     ],
-
+    loans: [],
     deposits: [
       {
         id: 0,
@@ -156,7 +156,8 @@ export const accounts = [
         merchant: "Sony",
       },
     ],
-
+    loans: [],
+    charges: [],
     deposits: [
       {
         id: 0,

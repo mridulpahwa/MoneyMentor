@@ -1,13 +1,11 @@
 import { Avatar, Message } from "@chatscope/chat-ui-kit-react";
 
-export default function GPTMsg({ text }) {
+export default function GPTMsg(props) {
   return (
     <Message
-      className="bg-transparent"
+      className="bg-transparent !rounded-md"
       model={{
-        message: text,
-        sender: "Jeff",
-        direction: "incoming",
+        ...props,
         position: "single",
       }}
     >

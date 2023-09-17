@@ -26,3 +26,5 @@ export const accountSpendingAtom = atom((get) => {
 });
 
 export const loansAtom = atom((get) => get(accountAtom)?.loans || []);
+
+export const gptFuncAtom = atom(null);

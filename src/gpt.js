@@ -2,6 +2,7 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({
   apiKey: "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",
+  dangerouslyAllowBrowser: true,
 });
 
 /**
@@ -14,7 +15,7 @@ function sortDatesByClosestToOldest(dateArray) {
     const [month, day, year] = dateString.date.split("/");
     // JavaScript uses 0-based indexing for months, so subtract 1 from the month
 
-    element = dateString;
+    let element = dateString;
     element.date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
 
     return element;
@@ -28,7 +29,7 @@ function sortDatesByClosestToOldest(dateArray) {
     const month = (date.date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.date.getDate().toString().padStart(2, "0");
     const year = date.date.getFullYear();
-    element = date;
+    let element = date;
     element.date = `${month}/${day}/${year}`;
     return element;
   });
@@ -40,48 +41,48 @@ function sortDatesByClosestToOldest(dateArray) {
  * Uses the user's accounts information to generate a budget for
  * their earnings and expenses
  */
-function generateBudget(accounts) {
-  recurringPayments = "";
-  totalRecurring = 0;
-  allLoans = "";
-  loanAmountMonthly = 0;
-  loanAmountTotal = 0;
+export function generateBudget(accounts) {
+  let recurringPayments = "";
+  let totalRecurring = 0;
+  let allLoans = "";
+  let loanAmountMonthly = 0;
+  let loanAmountTotal = 0;
 
-  balance = 0;
-  rewards = 0;
-  income = 0;
-  spendings = 0;
+  let balance = 0;
+  let rewards = 0;
+  let income = 0;
+  let spendings = 0;
 
-  for (i = 0; i < accounts.length; i++) {
+  for (let i = 0; i < accounts.length; i++) {
     balance += accounts[i].balance;
     rewards += accounts[i].points;
 
-    for (j = 0; j < accounts[i].deposits.length; j++)
+    for (let j = 0; j < accounts[i].deposits.length; j++)
       income += accounts[i].deposits[j].amount;
 
-    for (j = 0; j < accounts[i].charges.length; j++)
+    for (let j = 0; j < accounts[i].charges.length; j++)
       spendings += accounts[i].charges[j].amount;
   }
 
-  payments = accounts
+  let payments = accounts
     .map((acc) => {
       return acc.bills;
     })
     .flat(1);
 
-  loans = accounts
+  let loans = accounts
     .map((acc) => {
       return acc.loans;
     })
     .flat(1);
 
-  for (i = 0; i < payments.length; i++) {
+  for (let i = 0; i < payments.length; i++) {
     recurringPayments += `${payments[i].name}, $${payments[i].amount}. `;
     totalRecurring += payments[i].amount;
   }
   recurringPayments = recurringPayments === "" ? "None" : recurringPayments;
 
-  for (i = 0; i < loans.length; i++) {
+  for (let i = 0; i < loans.length; i++) {
     allLoans += `${loans[i].name}, Monthly Payment $${loans[i].amountPerMonth}. Total left $${loans[i].remainingAmount}. `;
     loanAmountMonthly += loans[i].amountPerMonth;
     loanAmountTotal += loans[i].remainingAmount;
@@ -110,48 +111,48 @@ function generateBudget(accounts) {
  * Similar to generateBudget, but recommends where to
  * cut spending instead
  */
-function recommendCuts(accounts) {
-  recurringPayments = "";
-  totalRecurring = 0;
-  allLoans = "";
-  loanAmountMonthly = 0;
-  loanAmountTotal = 0;
+export function recommendCuts(accounts) {
+  let recurringPayments = "";
+  let totalRecurring = 0;
+  let allLoans = "";
+  let loanAmountMonthly = 0;
+  let loanAmountTotal = 0;
 
-  balance = 0;
-  rewards = 0;
-  income = 0;
-  spendings = 0;
+  let balance = 0;
+  let rewards = 0;
+  let income = 0;
+  let spendings = 0;
 
-  for (i = 0; i < accounts.length; i++) {
+  for (let i = 0; i < accounts.length; i++) {
     balance += accounts[i].balance;
     rewards += accounts[i].points;
 
-    for (j = 0; j < accounts[i].deposits.length; j++)
+    for (let j = 0; j < accounts[i].deposits.length; j++)
       income += accounts[i].deposits[j].amount;
 
-    for (j = 0; j < accounts[i].charges.length; j++)
+    for (let j = 0; j < accounts[i].charges.length; j++)
       spendings += accounts[i].charges[j].amount;
   }
 
-  payments = accounts
+  let payments = accounts
     .map((acc) => {
       return acc.bills;
     })
     .flat(1);
 
-  loans = accounts
+  let loans = accounts
     .map((acc) => {
       return acc.loans;
     })
     .flat(1);
 
-  for (i = 0; i < payments.length; i++) {
+  for (let i = 0; i < payments.length; i++) {
     recurringPayments += `${payments[i].name}, $${payments[i].amount}. `;
     totalRecurring += payments[i].amount;
   }
   recurringPayments = recurringPayments === "" ? "None" : recurringPayments;
 
-  for (i = 0; i < loans.length; i++) {
+  for (let i = 0; i < loans.length; i++) {
     allLoans += `${loans[i].name}, Monthly Payment $${loans[i].amountPerMonth}. Total left $${loans[i].remainingAmount}. `;
     loanAmountMonthly += loans[i].amountPerMonth;
     loanAmountTotal += loans[i].remainingAmount;
@@ -180,39 +181,39 @@ function recommendCuts(accounts) {
  * Takes the top 5 merchants the user spends at and
  * recommends cheaper alternatives
  */
-function cheapAlternatives(accounts) {
-  purchases = accounts
+export function cheapAlternatives(accounts) {
+  let purchases = accounts
     .map((acc) => {
       return acc.charges;
     })
     .flat(1);
 
-  merchants = [];
+  let merchants = [];
 
-  for (i = 0; i < purchases.length; i++) {
+  for (let i = 0; i < purchases.length; i++) {
     if (!merchants.includes(purchases[i].merchant))
       merchants.push(purchases[i].merchant);
   }
 
-  merchantPayments = {};
+  let merchantPayments = {};
 
-  for (i = 0; i < merchants.length; i++) merchantPayments[merchants[i]] = 0;
+  for (let i = 0; i < merchants.length; i++) merchantPayments[merchants[i]] = 0;
 
-  for (i = 0; i < purchases.length; i++) {
+  for (let i = 0; i < purchases.length; i++) {
     merchantPayments[purchases[i].merchant] += purchases[i].amount;
   }
 
   let sortable = [];
-  for (var merchant in merchantPayments)
+  for (let merchant in merchantPayments)
     sortable.push([merchant, merchantPayments[merchant]]);
 
   sortable = sortable.sort((a, b) => b[1] - a[1]);
 
-  top3Merchants = sortable.slice(0, 3);
-  rec = "";
-  pay = 0;
+  let top3Merchants = sortable.slice(0, 3);
+  let rec = "";
+  let pay = 0;
 
-  for (i = 0; i < top3Merchants.length; i++) {
+  for (let i = 0; i < top3Merchants.length; i++) {
     rec += `$${top3Merchants[i][1]} on ${top3Merchants[i][0]}, `;
   }
 
@@ -225,10 +226,10 @@ function cheapAlternatives(accounts) {
  * Economic plan based on individual balances and rewards
  * on each of the user's accounts
  */
-function generalPlan(accounts) {
-  balances = "";
+export function generalPlan(accounts) {
+  let balances = "";
 
-  for (i = 0; i < accounts.length; i++) {
+  for (let i = 0; i < accounts.length; i++) {
     balances += `$${accounts[i].balance} and ${accounts[i].points} reward points in a ${accounts[i].type} account, `;
   }
 
@@ -239,23 +240,23 @@ function generalPlan(accounts) {
  * Economic advising based on balance and latest charges
  * on each account.
  */
-function economicAdvising(accounts) {
-  prompt = "";
+export function economicAdvising(accounts) {
+  let prompt = "";
 
-  for (i = 0; i < accounts.length; i++) {
-    expenses = 0;
-    recurring = 0;
-    expenseList = [];
-    recurrentList = [];
+  for (let i = 0; i < accounts.length; i++) {
+    let expenses = 0;
+    let recurring = 0;
+    let expenseList = [];
+    let recurrentList = [];
 
-    charges = sortDatesByClosestToOldest(accounts[i].charges);
-    bills = sortDatesByClosestToOldest(accounts[i].bills);
+    let charges = sortDatesByClosestToOldest(accounts[i].charges);
+    let bills = sortDatesByClosestToOldest(accounts[i].bills);
 
-    for (j = 0; j < Math.min(charges.length, 5); j++) {
+    for (let j = 0; j < Math.min(charges.length, 5); j++) {
       expenses += charges[j].amount;
       expenseList.push(charges[j].merchant);
     }
-    for (j = 0; j < Math.min(bills.length, 5); j++) {
+    for (let j = 0; j < Math.min(bills.length, 5); j++) {
       recurring += bills[j].amount;
       recurrentList.push(bills[j].name);
     }
@@ -278,6 +279,8 @@ function economicAdvising(accounts) {
  * above were called.
  */
 const conversation = async (user, messages) => {
+  let prompt;
+  let nextResponse;
   while (true) {
     prompt = ""; //Do Some input in the page to get the prompt
 
@@ -288,7 +291,7 @@ const conversation = async (user, messages) => {
         temperature: 0.4,
       })
       .then((result) => {
-        msg = result.choices[0].message.content;
+        let msg = result.choices[0].message.content;
         //Display this as the AI's response
 
         messages.push(result.choices[0].message);
@@ -296,8 +299,8 @@ const conversation = async (user, messages) => {
   }
 };
 
-async function dummyFunction(user, func) {
-  messages = [
+export async function getResponse(user, func, gptMessages) {
+  const messages = gptMessages ?? [
     {
       role: "system",
       content: `
@@ -313,19 +316,25 @@ async function dummyFunction(user, func) {
       content: func(user.accounts),
     },
   ];
+  debugger;
+  const response = await openai.chat.completions.create({
+    messages,
+    model: "gpt-3.5-turbo",
+    temperature: 0.3,
+  });
+  const msg = response.choices[0].message.content;
 
-  response = await openai.chat.completions
-    .create({
-      messages: messages,
-      model: "gpt-3.5-turbo",
-      temperature: 0.3,
-    })
-    .then((result) => {
-      msg = result.choices[0].message.content;
-      //Display this as the AI's response
+  return { msg, messages };
+}
 
-      messages.push(result.choices[0].message);
+export async function getNextResponse(gptMessages) {
+  const response = await openai.chat.completions.create({
+    messages: gptMessages,
+    model: "gpt-3.5-turbo",
+    temperature: 0.3,
+    presence_penalty: 0.6,
+  });
+  const msg = response.choices[0].message.content;
 
-      conversation(user, messages);
-    });
+  return { msg, messages: gptMessages };
 }
